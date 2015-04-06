@@ -19,6 +19,7 @@ private
 
   def setup
     @session = AVCaptureSession.alloc.init
+    setup_devices_list
     add_av_audio_input
     add_av_video_input
     add_av_audio_output 
@@ -26,6 +27,12 @@ private
     create_capture_view
     @session.setSessionPreset(AVCaptureSessionPreset640x480)
     @session.startRunning()
+  end
+
+  def setup_devices_list
+    p AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo).arrayByAddingObjectsFromArray(AVCaptureDevice.devicesWithMediaType(AVMediaTypeMuxed))
+    # self.setVideoDevices(AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo).arrayByAddingObjectsFromArray(AVCaptureDevice.devicesWithMediaType(AVMediaTypeMuxed)))
+    # self.setAudioDevices(AVCaptureDevice.devicesWithMediaType(AVMediaTypeAudio))
   end
 
   def create_capture_view

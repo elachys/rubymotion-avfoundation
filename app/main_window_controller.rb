@@ -2,6 +2,8 @@ class MainWindowController < NSWindowController
   extend IB
 
   outlet :record_label, NSTextField
+  outlet :video_inputs, NSComboBox
+  outlet :audio_inputs, NSComboBox
   outlet :capture_view, NSView
 
   MOVIE_FILE_NAME = "test_movie"
