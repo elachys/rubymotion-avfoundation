@@ -3,14 +3,13 @@ class MainWindowController < NSWindowController
 
   outlet :record_label, NSTextField
   outlet :capture_view, NSView
-  outlet :progress_indicator, NSProgressIndicator
+
+  MOVIE_FILE_NAME = "test_movie"
 
   def windowDidLoad
     @recording = false
-    @movie_recorder = MovieRecorder.new(@capture_view)
+    @movie_recorder = MovieRecorder.new(@capture_view, MOVIE_FILE_NAME)
     @record_label_layout = RecordLabelLayout.new(@record_label, @movie_recorder)
-    @progress_indicator.startAnimation(self)
-    get_translation
   end
 
   def keyDown(theEvent)

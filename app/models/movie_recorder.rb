@@ -1,31 +1,18 @@
 class MovieRecorder
 
-  attr_accessor :file_name
-
-  def initialize capture_view
+  def initialize capture_view, file_name
     @capture_view = capture_view
+    @file_name = file_name
     setup
   end
 
-  def file_name=file_name 
-    @file_name = file_name.tr(".", "").tr("!", "").tr("?", "").tr(" ", "_").downcase
-  end
-
   def record
-    @video_output.startRecordingToOutputFileURL(local_ns_url, recordingDelegate:self)
+    @video_output.startRecordingToOutputFileURL(NSURL.fileURLWithPath(local_file_path), recordingDelegate:self)
   end
 
   def stop_record
     @video_output.stopRecording()
     MovieProcessor.new(@file_name)
-  end
-
-  def clip_data
-    {
-      content_type: "video/quicktime",
-      filename: "#{@file_name}.mov",
-      data: NSData.dataWithContentsOfFile(local_file_path)
-    }
   end
 
 private
@@ -75,10 +62,6 @@ private
 
   def error
     Pointer.new('@')
-  end
-
-  def local_ns_url
-    NSURL.fileURLWithPath(local_file_path)
   end
 
   def local_file_path
