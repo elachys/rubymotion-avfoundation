@@ -116,7 +116,7 @@
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSComboBoxCell" key="NSCell" id="422121284">
-								<int key="NSCellFlags">342884417</int>
+								<int key="NSCellFlags">879755329</int>
 								<int key="NSCellFlags2">272630784</int>
 								<string key="NSContents"/>
 								<reference key="NSSupport" ref="200746180"/>
@@ -262,7 +262,7 @@
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSComboBoxCell" key="NSCell" id="785138099">
-								<int key="NSCellFlags">342884417</int>
+								<int key="NSCellFlags">879755329</int>
 								<int key="NSCellFlags2">272630784</int>
 								<string key="NSContents"/>
 								<reference key="NSSupport" ref="200746180"/>

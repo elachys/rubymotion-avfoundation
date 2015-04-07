@@ -12,6 +12,8 @@ class MainWindowController < NSWindowController
     @recording = false
     @movie_recorder = MovieRecorder.new(@capture_view, MOVIE_FILE_NAME)
     @record_label_layout = RecordLabelLayout.new(@record_label, @movie_recorder)
+    @audio_input_layout = AudioInputLayout.new(@audio_inputs)
+    @video_input_layout = VideoInputLayout.new(@video_inputs)
   end
 
   def keyDown(theEvent)
