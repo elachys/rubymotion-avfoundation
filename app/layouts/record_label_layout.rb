@@ -1,7 +1,5 @@
 class RecordLabelLayout
 
-  attr_accessor :seconds, :label, :timer
-
   def initialize label, movie_recorder
     @movie_recorder = movie_recorder
     @label = label
