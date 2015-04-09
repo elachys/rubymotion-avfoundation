@@ -8,6 +8,8 @@ This is a simple OSX app for recording video from your webcam.  Some of the feat
 
 * It saves the file as test_movie.mp4, and will save the file to your desktop.
 
+* The audio and video input device is selectable.
+
 ### To get started:
 
 ```
@@ -17,6 +19,5 @@ rake
 
 ### Todo:
 
-* Allow selection of input device
 * Allow selection of save location
 * Better compression on the mp4 file
