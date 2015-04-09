@@ -2,9 +2,8 @@ class MainWindowController < NSWindowController
   extend IB
 
   outlet :record_label, NSTextField
-  #~/proj/RubyMotionSamples/osx/PathDemo
-  outlet :audioDevices, NSPopUpButtonCell
   outlet :capture_view, NSView
+  outlet :inputs_box, NSBox
 
   MOVIE_FILE_NAME = "test_movie"
 
@@ -12,28 +11,23 @@ class MainWindowController < NSWindowController
     @recording = false
     @movie_recorder = MovieRecorder.new(@capture_view, MOVIE_FILE_NAME)
     @record_label_layout = RecordLabelLayout.new(@record_label, @movie_recorder)
-    add_popups
-    # ary  = ["tacos","rainbows", "iPhones", "gold coins"]
-    # self.setAudioDevices(AVCaptureDevice.devicesWithMediaType(AVMediaTypeAudio))
-    # @audioDevices.addItemsWithTitles(ary)
-    # @audioDevices.selectItemAtIndex(0)
-    # @audio_input_layout = AudioInputLayout.new(@audio_inputs)
-    # @video_input_layout = VideoInputLayout.new(@video_inputs)
+    add_audio_device_input
   end
 
-  def runAgain
-    p "run again"
+  def runAgain(sender)
+    select(self)
   end
 
-  def add_popups
-    popup = NSPopUpButton.alloc.initWithFrame([[158, 431], [178, 24]])
-    ['Rectangles', 'Circles', 'Bezier Paths', 'Circle Clipping'].each do |title|
-      popup.addItemWithTitle(title)
+  def add_audio_device_input
+    popup = NSPopUpButton.alloc.initWithFrame([[10, 15], [178, 24]])
+    AVCaptureDevice.devicesWithMediaType(AVMediaTypeAudio).each do |device|
+      popup.addItemWithTitle(device.localizedName)
     end
+    # popup.selectItemAtIndex(0)
     popup.autoresizingMask = NSViewMinYMargin
     popup.target = self
     popup.action = :"runAgain:"
-    # self.addSubview(@popup)
+    @inputs_box.contentView.addSubview(popup)
   end
 
   def keyDown(theEvent)
