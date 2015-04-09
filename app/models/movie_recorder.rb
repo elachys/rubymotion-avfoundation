@@ -16,17 +16,11 @@ class MovieRecorder
   end
 
   def update_audio_input index
-    @session.beginConfiguration
-    @session.commitConfiguration
+    add_audio_input AVCaptureDevice.devicesWithMediaType(AVMediaTypeAudio)[index]
   end
 
   def update_video_input index
-    @session.beginConfiguration
-    @session.removeInput(@video_input)
-    video_device = AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)[index]
-    @video_input = AVCaptureDeviceInput.deviceInputWithDevice(video_device, error:error)
-    @session.addInput(@video_input)
-    @session.commitConfiguration
+    add_video_input AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)[index]
   end
 
 private
@@ -63,16 +57,24 @@ private
   end
 
   def add_default_audio_input 
-    audio_device = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeAudio)
-    if @audio_input = AVCaptureDeviceInput.deviceInputWithDevice(audio_device, error:error)
-        @session.addInput(@audio_input)
-    end
+    add_audio_input(AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeAudio))
   end
 
   def add_default_video_input 
-    video_device = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
-    if @video_input = AVCaptureDeviceInput.deviceInputWithDevice(video_device, error:error)
-        @session.addInput(@video_input)
+    add_video_input(AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo))
+  end
+
+  def add_video_input device
+    @session.removeInput(@video_input) if @video_input
+    if @video_input = AVCaptureDeviceInput.deviceInputWithDevice(device, error:error)
+      @session.addInput(@video_input)
+    end
+  end
+
+  def add_audio_input device
+    @session.removeInput(@audio_input) if @audio_input
+    if @audio_input = AVCaptureDeviceInput.deviceInputWithDevice(device, error:error)
+      @session.addInput(@audio_input)
     end
   end
 
