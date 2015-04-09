@@ -1,7 +1,11 @@
 class VideoInputLayout
 
-  def initialize video_inputs 
-    @video_inputs = video_inputs
+  def initialize combo_box 
+    @combo_box = combo_box
+  end
+
+  def devices
+    AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)
   end
 
 end
