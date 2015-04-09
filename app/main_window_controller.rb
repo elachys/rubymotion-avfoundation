@@ -17,11 +17,11 @@ class MainWindowController < NSWindowController
   end
 
   def select_audio sender
-    select(self)
+    @movie_recorder.update_audio_input(sender.indexOfSelectedItem)
   end
 
   def select_video sender
-    select(self)
+    @movie_recorder.update_video_input(sender.indexOfSelectedItem)
   end
 
   def add_audio_device_input
@@ -29,10 +29,9 @@ class MainWindowController < NSWindowController
     AVCaptureDevice.devicesWithMediaType(AVMediaTypeAudio).each do |device|
       popup.addItemWithTitle(device.localizedName)
     end
-    # popup.selectItemAtIndex(0)
     popup.autoresizingMask = NSViewMinYMargin
     popup.target = self
-    popup.action = :"select_audio :"
+    popup.action = :"select_audio:"
     @audio_input_box.contentView.addSubview(popup)
   end
 
@@ -41,7 +40,6 @@ class MainWindowController < NSWindowController
     AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo).each do |device|
       popup.addItemWithTitle(device.localizedName)
     end
-    # popup.selectItemAtIndex(0)
     popup.autoresizingMask = NSViewMinYMargin
     popup.target = self
     popup.action = :"select_video:"

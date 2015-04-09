@@ -15,15 +15,29 @@ class MovieRecorder
     MovieProcessor.new(@file_name)
   end
 
+  def update_audio_input index
+    @session.beginConfiguration
+    @session.commitConfiguration
+  end
+
+  def update_video_input index
+    @session.beginConfiguration
+    @session.removeInput(@video_input)
+    video_device = AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)[index]
+    @video_input = AVCaptureDeviceInput.deviceInputWithDevice(video_device, error:error)
+    @session.addInput(@video_input)
+    @session.commitConfiguration
+  end
+
 private
 
   def setup
     @session = AVCaptureSession.alloc.init
     @session.beginConfiguration
-    add_av_audio_input
-    add_av_video_input
-    add_av_audio_output 
-    add_av_video_output
+    add_default_audio_input
+    add_default_video_input
+    add_audio_output 
+    add_video_output
     create_capture_view
     @session.setSessionPreset(AVCaptureSessionPreset640x480)
     @session.commitConfiguration
@@ -37,28 +51,28 @@ private
     @capture_view.layer.addSublayer(preview_layer)
   end
 
-  def add_av_video_output 
+  def add_video_output 
     @video_output = AVCaptureMovieFileOutput.alloc.init
     @video_output.setDelegate(self)
     @session.addOutput(@video_output)
   end
   
-  def add_av_audio_output 
+  def add_audio_output 
     @audio_output = AVCaptureAudioPreviewOutput.alloc.init
     @session.addOutput(@audio_output)
   end
 
-  def add_av_audio_input 
+  def add_default_audio_input 
     audio_device = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeAudio)
-    if audio_input = AVCaptureDeviceInput.deviceInputWithDevice(audio_device, error:error)
-        @session.addInput(audio_input)
+    if @audio_input = AVCaptureDeviceInput.deviceInputWithDevice(audio_device, error:error)
+        @session.addInput(@audio_input)
     end
   end
 
-  def add_av_video_input 
+  def add_default_video_input 
     video_device = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
-    if video_input = AVCaptureDeviceInput.deviceInputWithDevice(video_device, error:error)
-        @session.addInput(video_input)
+    if @video_input = AVCaptureDeviceInput.deviceInputWithDevice(video_device, error:error)
+        @session.addInput(@video_input)
     end
   end
 
